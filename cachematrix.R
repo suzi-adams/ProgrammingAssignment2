@@ -22,7 +22,7 @@ makeCacheMatrix <- function(x = matrix()) {
 ## return a matrix that is the inverse of 'x'
 
 cacheSolve <- function(x, ...) {
-    thism <- x$getinv
+    thism <- x$getinv()
     
     ## couldn't work out how to tell if the matrix was empty or not :-( 
     ## if I left it with null it always returned cached data, so never
@@ -30,12 +30,13 @@ cacheSolve <- function(x, ...) {
     ## am submitting with this bug as I am short of time and will try
     ## to see if I can fix it before the deadline and resubmit
     
-    if(!is.null(dim(thism))) {
+    ##if(!is.na(thism)) {
+    if( !(nrow(thism)==1 & ncol(thism)==1 & is.na(thism[1,1]))){
         message("getting cached data")
         return(thism)
     }
     data <- x$get()
-    thism <- solve(data, ...)
+    thism <- solve(data)
     x$setinv(thism)
     thism
 }
